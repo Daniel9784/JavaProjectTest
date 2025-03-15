@@ -6,7 +6,7 @@ public class JednoduchaKalkulackaMain {
   //      double vysledok = a + b;
 
   //      System.out.printf("Výsledok sčítania %d a %d je %d \n", a, b, a + b);
-
+  //      System.out.println("Výsledok sčítania "+ a +" a "+ b +" je "+ vysledok);
 
         System.out.println("Výsledok pri sčítaní:" + scitanie(a,b)+
                            "\nVýsledok pri odčítaní:" + odcitanie(a,b)+
