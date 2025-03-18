@@ -30,7 +30,7 @@ public class ArrayListNumbersAnotherOne {
     }
 
        // Metody na sucet a zaokruhlovanie
-    public double calculateSum() {
+    public double calculateSum(Double... numbers) {
         double sum = 0;
         for (double number : numbers) {
             sum += number;

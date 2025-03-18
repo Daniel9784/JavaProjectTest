@@ -12,6 +12,7 @@ public class ArrayListAnotherOneTest {
     @BeforeEach
     public void setUp() {
         test = new ArrayListNumbersAnotherOne();
+
     }
 
     @Test
@@ -24,12 +25,12 @@ public class ArrayListAnotherOneTest {
     @Test
     public void testCalculateSum() {
        // Nastavime hodnoty pre sucet
-        setNumbers(10.5, 20.3, 5.2);
+      //  setNumbers(10.5, 20.3, 5.2);
         double expectedSum = 10.5 + 20.3 + 5.2;
-        assertEquals(expectedSum, test.calculateSum(), 0.0001);
+        assertEquals(expectedSum, test.calculateSum(10.5,20.3,5.2), 0.0001);
     }
 
-    // Metoda na nastavenie hodnot (nechapem ju)
+    // Metoda na nastavenie hodnot (nie je potrebny set numbers, je opoznamkovany a vyriesilo sa to inym sposobom)
     private void setNumbers(Double... values) {
         try {
             var field = ArrayListNumbersAnotherOne.class.getDeclaredField("numbers");
