@@ -1,9 +1,20 @@
 package uloha;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.*;
 
+
+import java.io.*;
+import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Kniha {
+class Kniha implements Serializable {
+    private static final long serialVersionUID = 1L;
     String nazov;
     String autor;
 
@@ -19,11 +30,12 @@ class Kniha {
 }
 
 public class JednoduchaKniznica {
-    private final ArrayList<Kniha> knihy = new ArrayList<>();
-    private final Scanner scanner = new Scanner(System.in);
+    private ArrayList<Kniha> knihy = new ArrayList<>();
+    private Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         JednoduchaKniznica jednoduchaKniznica = new JednoduchaKniznica();
+        jednoduchaKniznica.deserialize(jednoduchaKniznica.knihy,"zoznamKnih.ser");
         jednoduchaKniznica.start();
     }
 
@@ -37,37 +49,28 @@ public class JednoduchaKniznica {
             System.out.println("4. Vymaž konkrétnu knihu (podľa indexu)");
             System.out.println("5. Zobraz počet všetkých kníh");
             System.out.println("6. Vyhľadá knihu podľa názvu knihy alebo podľa autora");
-            System.out.println("7. Ukončí program");
+            System.out.println("7. Uloží knihy");
+            System.out.println("8. Exportuje do PDF");
+            System.out.println("9. Upraví knihu");
+            System.out.println("10. Ukončí program");
             System.out.print("Zadajte číslo voľby");
             volba = scanner.nextInt();
             scanner.nextLine();
 
             switch (volba) {
-                case 1:
-                    pridajKnihu();
-                    break;
-                case 2:
-                    zobrazVsetkyKnihy();
-                    break;
-                case 3:
-                    zobrazKnihuPodlaIndexu();
-                    break;
-                case 4:
-                    vymazKnihuPodlaIndexu();
-                    break;
-                case 5:
-                    zobrazPocetKnih();
-                    break;
-                case 6:
-                    vyhladajKnihu();
-                    break;
-                case 7:
-                    System.out.println("Program bol ukončený");
-                    break;
-                default:
-                    System.out.println("Neplatná voľba!");
+                case 1 -> pridajKnihu();
+                case 2 -> zobrazVsetkyKnihy();
+                case 3 -> zobrazKnihuPodlaIndexu();
+                case 4 -> vymazKnihuPodlaIndexu();
+                case 5 -> zobrazPocetKnih();
+                case 6 -> vyhladajKnihu();
+                case 7 -> serialize(knihy, "zoznamKnih.ser");
+                case 8 -> exportPDF();
+                case 9 -> upravKnihu();
+                case 10 -> System.out.println("Program bol ukončený");
+                default -> System.out.println("Neplatná voľba!");
             }
-        } while (volba != 7);
+        } while (volba != 10);
     }
 
 
@@ -158,6 +161,79 @@ public class JednoduchaKniznica {
 
         }
     }
+}
+public void serialize(ArrayList<Kniha> knihy, String zoznamKnih){
+    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(zoznamKnih))) {
+        out.writeObject(knihy);
+        System.out.println("Objekt bol serializovaný do: " + zoznamKnih);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+public void deserialize(ArrayList<Kniha> knihy, String zoznamKnih){
+    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(zoznamKnih))) {
+        knihy.addAll((ArrayList<Kniha>) in.readObject());
+        System.out.println("Knihy boli načítané zo súboru.");
+    } catch (IOException | ClassNotFoundException e) {
+        System.out.println("Neboli nájdené uložené knihy, začíname s prázdnou knižnicou.");
+    }
+}
+public void exportPDF(){
+        Document document = new Document();
+    try
+    {
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("zoznamKnih.pdf"));
+        document.open();
+
+
+        BaseFont baseFont = BaseFont.createFont("resources/fonts/FreeSans.otf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        Font font = new Font(baseFont, 12, Font.NORMAL);
+
+        document.add(new Paragraph("Zoznam kníh: ", font));
+        for(Kniha kniha:knihy){
+            document.add(new Paragraph(kniha.toString(), font));
+        }
+
+        document.close();
+        writer.close();
+        System.out.println("PDF bol úspešne vytvorený");
+
+
+    } catch (DocumentException | IOException e)
+    {
+        e.printStackTrace();
+    }
+}
+public void upravKnihu(){
+    System.out.println("Zadajte index knihy, ktorej názov chcete zmeniť");
+    int index = scanner.nextInt();
+    scanner.nextLine();
+    if(index >= 0 && index < knihy.size() ){
+        System.out.println("Vyberte možnosť: ");
+        System.out.println("1. Zmeniť názov knihy");
+        System.out.println("2. Zmeniť autora knihy");
+        System.out.println("Zadajte voľbu: ");
+        int volba = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (volba) {
+            case 1 -> {
+                System.out.println("Zadajte nový názov knihy: ");
+                String novyNazov = scanner.nextLine();
+                knihy.get(index).nazov = novyNazov;
+                System.out.println("Názov knihy bol zmenený");
+            }
+            case 2 -> {
+                System.out.println("Zadajte nové meno autora knihy: ");
+                String novyAutor = scanner.nextLine();
+                knihy.get(index).autor = novyAutor;
+                System.out.println("Autor knihy bol úspešne zmenený");
+            }
+            default -> System.out.println("Neplatná voľba!");
+        }
+} else{
+        System.out.println("Neexistuje kniha na tomto indexe.");
+}
 }
 }
 
