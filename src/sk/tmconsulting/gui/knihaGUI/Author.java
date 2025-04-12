@@ -16,20 +16,25 @@ public class Author {
     }
 
     public String getName() {
+
         return name;
     }
 
     public String getBio() {
+
         return bio;
     }
     public int getAge(){
+
         return age;
     }
     public String getDateofbirth() {
+
         return dateofbirth;
     }
 
     public String getGender() {
+
         return gender;
     }
 }

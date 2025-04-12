@@ -1,7 +1,4 @@
-/**
- * Copyright (c) 2025 Ján Žitniak
- * Licensed under the TM Consulting
- */
+
 
 package sk.tmconsulting.gui;
 
