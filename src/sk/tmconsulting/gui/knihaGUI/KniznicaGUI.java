@@ -58,7 +58,7 @@ public class KniznicaGUI {
                 }
             }
         });
-            // Na oddelenie panelov
+            // Priradenie bookListu a infoArea na west a center
         frame.add(new JScrollPane(bookList), BorderLayout.WEST);
         frame.add(new JScrollPane(infoArea), BorderLayout.CENTER);
 
