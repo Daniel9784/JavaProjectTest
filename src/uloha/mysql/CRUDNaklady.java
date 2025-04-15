@@ -56,21 +56,22 @@ public class CRUDNaklady {
             System.out.print("Zadaj cenu nakladu: ");
             double cena = Double.parseDouble(scanner.nextLine());
 
-            System.out.println("Zvoľ kategóriu:");
-            for (Kategoria kat : Kategoria.values()) {
-                System.out.println("- " + kat.name());
-            }
 
     // Naplnime kategoriu nulovou hodnotou a nasledne bude naplnena z inputu
             Kategoria kategoria = null;
 
+            while(kategoria == null){
+                System.out.println("Zvolte kategoriu: ");
+                for(Kategoria kat: Kategoria.values()){
+                    System.out.println("- "+ kat.name());
+                }
                 String input = scanner.nextLine();
-
                 try {
                     kategoria = Kategoria.valueOf(input);
                 } catch (IllegalArgumentException e) {
                     System.out.println(" Chybna kategoria.");
                 }
+        }
 
     // Vlozenie udajov do databazy
             String sql = "INSERT INTO naklady (nazov, cena, kategoria) VALUES (?, ?, ?)";
