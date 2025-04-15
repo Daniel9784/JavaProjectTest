@@ -99,8 +99,8 @@ ResultSet rs = stmt.executeQuery(sql)) {
         String meno = rs.getString("nazov");
         double cena = rs.getDouble("cena");
         String kategoria = rs.getString("kategoria");
-        Timestamp cas = rs.getTimestamp("datum");
-        System.out.printf("%d | %s | %.2f € | %s | %s%n", id, meno, cena, kategoria, cas);
+        Timestamp datum = rs.getTimestamp("datum");
+        System.out.printf("%d | %s | %.2f € | %s | %s%n", id, meno, cena, kategoria, datum);
 }
 }catch(SQLException e){
     System.out.println("Chyba " + e.getMessage());
