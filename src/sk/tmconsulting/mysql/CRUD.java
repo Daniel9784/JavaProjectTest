@@ -15,10 +15,11 @@ public class CRUD {
 
     public static void insert(Connection conn) throws SQLException {
 // the mysql insert statement
-        String query = "INSERT INTO book (name) VALUES (?)";
+        String query = "INSERT INTO book (name, pages) VALUES (?, ?)";
         // create the mysql insert preparedstatement
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         preparedStmt.setString (1, "Hamnet");
+        preparedStmt.setInt(2, 450);
         // execute the preparedstatement
         preparedStmt.execute();
     }
@@ -36,18 +37,20 @@ public class CRUD {
         {
             int id = rs.getInt("id");
             String name = rs.getString("name");
+            int pages = rs.getInt("pages");
             // print the results
-            System.out.println(name);
+            System.out.println(id + " " +name + " " + pages);
         }
         preparedStmt.close();
     }
 
     public static void update(Connection conn) throws SQLException {
         // create the java mysql update preparedstatement
-        String query = "UPDATE book SET name = ? WHERE id = ?";
+        String query = "UPDATE book SET name = ?, pages = ? WHERE id = ?";
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         preparedStmt.setString(1, "Já, NE robot");
-        preparedStmt.setInt(2, 1);
+        preparedStmt.setInt(2, 123);
+        preparedStmt.setInt(3, 2);
         // execute the java preparedstatement
         preparedStmt.executeUpdate();
     }
@@ -64,19 +67,19 @@ public class CRUD {
         } catch (SQLException e) {
             throw new IllegalStateException("Cannot connect the database!", e);
         }
-//        System.out.println("SELECT all data FROM book");
-//        try {
-//            select(conn);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        System.out.println("UPDATE book WITH id = 1");
-//        try {
-//            update(conn);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
+        System.out.println("SELECT all data FROM book");
+       try {
+           select(conn);
+       } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+       System.out.println("UPDATE book WITH id = 1");
+        try {
+            update(conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         System.out.println("INSERT new book");
         try {
