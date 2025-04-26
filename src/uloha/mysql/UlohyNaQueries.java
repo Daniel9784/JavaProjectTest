@@ -92,6 +92,7 @@ public class UlohyNaQueries {
 
         List<User> users = new ArrayList<>();
 
+        // Connect na databazu
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
@@ -115,13 +116,14 @@ public class UlohyNaQueries {
 
     public List<User> usersWithExpenses() {
         String sql = """
-        SELECT users.name, expenses.category, expenses.amount, expenses.expense_date
+        SELECT users.name, expenses.category, expenses.amount, expenses.expense_date 
         FROM users
         INNER JOIN expenses ON users.id = expenses.user_id
         """;
 
         List<User> users = new ArrayList<>();
 
+        // Connect na databazu
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
@@ -161,12 +163,13 @@ public class UlohyNaQueries {
             System.out.println(user);
 
         List<User> usersBornIn80s = repository.userIn80sExpenses();
-        System.out.println();
+        System.out.println("\nUsers born in 80s: \n");
         for (User user : usersBornIn80s) {
             System.out.println(user);
         }
 
         List<User> usersWithExpenses = repository.usersWithExpenses();
+        System.out.println("\nUsers with Expenses: \n");
         for (User user : usersWithExpenses) {
             System.out.printf(
                     "User: %-20s | Category: %-15s | Amount: %8.2f € | Date: %s%n",
