@@ -26,10 +26,12 @@ public class User {
     }
 
     public String getName() {
+
         return name;
     }
 
     public List<Expense> getExpenses() {
+
         return expenses;
     }
 
@@ -58,14 +60,17 @@ public class User {
         }
 
         public String getCategory() {
+
             return category;
         }
 
         public double getAmount() {
+
             return amount;
         }
 
         public Date getExpenseDate() {
+
             return expenseDate;
         }
 

@@ -63,6 +63,7 @@ public class UlohyNaQueries {
         return categorySum;
     }
 
+    // Hladanie uzivatela podla pismena Z
     public List<User> findUsersWithZInName() {
         String sql = "SELECT * FROM users WHERE SUBSTRING_INDEX(name, ' ', -1) LIKE '%Z%'";
         List<User> users = new ArrayList<>();
@@ -89,6 +90,7 @@ public class UlohyNaQueries {
         return users;
     }
 
+    // Uzivatel 80. roky a jeho vydavky
     public List<User> userIn80sExpenses() {
         String sql = """
             SELECT id, name, relation, birth_date
@@ -119,6 +121,7 @@ public class UlohyNaQueries {
         return users;
     }
 
+    //Uzivatelske vydavky
     public List<User> usersWithExpenses() {
         String sql = """
             SELECT users.name, expenses.category, expenses.amount, expenses.expense_date
